@@ -1,6 +1,6 @@
 export class UpdateBookDto {
     title:string;
     author:string;
-    publishDate:string;
+    publishDate:Date;
     summary:string;
 }

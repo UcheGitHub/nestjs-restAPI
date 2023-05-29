@@ -12,7 +12,7 @@ export class Book {
     author:string;
 
     @Column()
-    publishDate:string;
+    publishDate:Date;
 
     @Column()
     summary:string;

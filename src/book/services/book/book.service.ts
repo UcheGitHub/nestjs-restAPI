@@ -28,23 +28,41 @@ export class BookService {
         return book
     }
 
-    createBook(bookDetails:CreateBookDto){
-        const newBook = this.bookRepository.create(
-            bookDetails,
-        );
-        return this.bookRepository.save(newBook);
+    async createBook(bookDetails: CreateBookDto){
+
+        const title = bookDetails.title;
+        const existingBook = await this.bookRepository.findOneBy({title});
+
+        // console.log("Before searching")
+        if(existingBook){
+            // console.log("Throwing exception")
+            throw new HttpException(
+                `title: ${title} must be unique`,
+                HttpStatus.BAD_REQUEST
+            );
+        }
+        // console.log("Book found")
+
+        // console.log("Book created")
+        return this.bookRepository.save(bookDetails);
     }
 
-    updateBook(
+    async updateBook(
         id:number,
         updateBookDetails:UpdateBookDto
     ){
+        const existingBook = await this.findBookById(id);
+        // Update the existingBook with the properties from updateBookDetails
+        // Object.assign(existingBook, updateBookDetails);
+        console.log(updateBookDetails);
         return this.bookRepository.update({id}, {...updateBookDetails});
+        // return this.bookRepository.update({id}, {...existingBook});
     }
 
-    deleteBook(
+    async deleteBook(
         id:number,
     ){
+        const existingBook = await this.findBookById(id);
         return this.bookRepository.delete({id});
     }
 

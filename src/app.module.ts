@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BookModule } from './book/book.module';
 import { Book } from './typeorm/entities/book';
+import { BookValidationPipe } from './book/common/validation.pipe';
 
 @Module({
   imports: [
@@ -20,6 +21,6 @@ import { Book } from './typeorm/entities/book';
     BookModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, BookValidationPipe],
 })
 export class AppModule {}
